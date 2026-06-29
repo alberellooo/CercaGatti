@@ -40,9 +40,8 @@ if __name__ == "__main__":
     while True:
         check, frame = read_frame(canale)
 
-        width, height, channel = dimension(frame)
-
         if check:
+            width, height, channel = dimension(frame)
             print("Frame catturato. Dimensioni:", str(width), "x", str(height))
         else:
             print("Frame perso")
