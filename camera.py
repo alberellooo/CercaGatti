@@ -4,7 +4,7 @@ Il risultato finale sarà che ogni frame è diviso in 3 parti.
 I segmenti sono grandi (rispetto alla larghezza):
 - ai lati 40%
 - al centro 20%
-Lo scopo è di dire il robot di girare im base a dove si trova l'oggetto.
+Lo scopo è di dire il robot di girare in base a dove si trova l'oggetto.
 Per esempio se l'oggetto si trova nella parte di sinistra, il robot girerà verso sinistra.
 """
 
@@ -23,15 +23,16 @@ def read_frame(canale):
 
 def dimension(frame):
     height, width, channel = frame.shape # channel ritorna i canali RGB
-    return height, width, channel
+    return width, height, channel
 
 if __name__ == "__main__":
 
     # regola la qualità di registrazione
     settings = {
     "width": 1280,
-    "height": 1024,
-    "fps": 60
+    "height": 720,
+    "fps": 30,
+    "key_to_stop": "q"
     }
 
     canale = initialize(settings)
@@ -39,20 +40,23 @@ if __name__ == "__main__":
     while True:
         check, frame = read_frame(canale)
 
+        width, height, channel = dimension(frame)
+
         if check:
-            print("Frame catturato. Dimensioni:", dimension(frame))
+            print("Frame catturato. Dimensioni:", str(width), "x", str(height))
         else:
             print("Frame perso")
         
-        width_first_line = int(40/100*settings["width"]) # linea sinistra (40%)
-        width_second_line = int(60/100*settings["width"]) # linea destra (60%)
-        frame1 = cv2.line(frame, (width_first_line, settings["height"]), (width_first_line, 0), (0, 0, 0), 5)
-        frame2 = cv2.line(frame, (width_second_line, settings["height"]), (width_second_line, 0), (0, 0, 0), 5)
+        width_first_line = int(40/100*width)
+        width_second_line = int(60/100*width) 
+        cv2.line(frame, (width_first_line, settings["height"]), (width_first_line, 0), (0, 0, 0), 5) # linea sinistra
+        cv2.line(frame, (width_second_line, settings["height"]), (width_second_line, 0), (0, 0, 0), 5) # linea destra 
 
-        output = cv2.imshow("output", frame)
-        cv2.waitKey(1)
+        cv2.imshow("output", frame)
 
-        # se clicco la X dell'output video, il codice termina
-        if cv2.getWindowProperty("output", cv2.WND_PROP_VISIBLE) == 0: 
+        key = cv2.waitKey(1) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
+
+        # il secondo comando dice di stoppare quando clicco la X della finestra
+        if key == ord(settings["key_to_stop"]) or cv2.getWindowProperty("output", cv2.WND_PROP_VISIBLE) == 0: 
             cv2.destroyAllWindows() # chiude tutte le finestre (per sicurezza)
             break
