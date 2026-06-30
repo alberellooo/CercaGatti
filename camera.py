@@ -19,22 +19,45 @@ def read_frame(canale):
     return check, frame
 
 def dimension(frame):
-    height, width, channel = frame.shape # channel ritorna i canali RGB
+    height, width, channel = frame.shape # channel ritorna i canali BGR
     return width, height, channel
 
-def lines():
+def lines(frame):
         width_first_line = int(40/100*width)
         width_second_line = int(60/100*width) 
         cv2.line(frame, (width_first_line, width), (width_first_line, 0), (0, 0, 0), 5) # linea sinistra
         cv2.line(frame, (width_second_line, height), (width_second_line, 0), (0, 0, 0), 5) # linea destra 
+        return width_first_line, width_second_line
+        
 
-def quit():
+def quit(key_to_stop):
         key = cv2.waitKey(1) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
 
         # il secondo comando dice di stoppare quando clicco la X della finestra
         if key == ord(key_to_stop) or cv2.getWindowProperty("output", cv2.WND_PROP_VISIBLE) == 0: 
             cv2.destroyAllWindows() # chiude tutte le finestre (per sicurezza)
-            return 1
+            return True
+
+def test(frame, width, height):
+    settings = {
+         "center": (int(width/2), int(height/2)),
+         "radius": 10,
+         "color": (0, 0, 0),
+         "thickness": -1 
+        }
+    cv2.circle(frame, settings["center"], settings["radius"], settings["color"], settings["thickness"])
+    return settings
+
+def find_circle(width_first_line, width_second_line):
+    circle_pos = test(frame, width, height)
+    if circle_pos["center"][0] <= width_first_line:
+        cv2.putText(frame, "LEFT", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+    elif circle_pos["center"][0] >= width_first_line and circle_pos["center"][0] <= width_second_line:
+        cv2.putText(frame, "CENTER", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+    else:
+        cv2.putText(frame, "RIGHT", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+
+    
 
 if __name__ == "__main__":
 
@@ -51,9 +74,11 @@ if __name__ == "__main__":
         else:
             print("Frame perso")
         
-        lines()
+        width_first_line, width_second_line = lines(frame)
+
+        find_circle(width_first_line, width_second_line)
 
         cv2.imshow("output", frame)
 
-        if quit() == 1:
+        if quit(key_to_stop):
              break
