@@ -7,16 +7,20 @@ import cv2, yolo, camera
 
 def draw_rectangles_names(frame, everything):
     for el in everything:
-        x1, y1, x2, y2 = el["box"]
+        x1, y1, x2, y2 = map(int, el["box"])
         name_obj = el["name"]
         conf = el["conf"]
         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 2)
-        cv2.putText(frame, name_obj, (x1, y1+10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+        cv2.putText(frame, name_obj, (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+    return frame
 
 if __name__ == "__main__":
     while True:
         everything, frame = yolo.do_everything_yolo()
         
-        draw_rectangles_names(frame, everything)
+        frame = draw_rectangles_names(frame, everything)
 
-        camera.output_camera()
+        camera.output_camera(frame)
+
+        if camera.quit(key_to_stop="q"):
+            break

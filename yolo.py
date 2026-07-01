@@ -36,8 +36,8 @@ def do_everything_yolo():
     frame = get_frame()
     results = get_results(model, frame)
     everything = sort_results(model, results)
-    return results, frame
+    return everything, frame
 
 if __name__ == "__main__":
-    everything = do_everything_yolo()
+    everything, frame = do_everything_yolo()
     print(everything)
