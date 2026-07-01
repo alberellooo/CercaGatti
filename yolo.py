@@ -14,30 +14,30 @@ def get_frame():
     check, frame = camera.read_frame(canale)
     return frame
 
-def get_results(frame):
+def get_results(model, frame):
     results = model(frame)
     return results
 
-def sort_results(results):
+def sort_results(model, results):
     everything = []
     for box in results[0].boxes:
         pos = box.xyxy[0].tolist()
-        name_ogg = model.names[int(box.cls[0])]
+        name_obj = model.names[int(box.cls[0])]
         conf = float(box.conf[0])
         everything.append({
             "box": pos,
-            "name": name_ogg,
+            "name": name_obj,
             "conf": conf
             })
     return everything
 
-if __name__ == "__main__":
+def do_everything_yolo():
     model = initialize_YOLO()
-
     frame = get_frame()
-    
-    results = get_results(frame)
+    results = get_results(model, frame)
+    everything = sort_results(model, results)
+    return results, frame
 
-    everything = sort_results(results)
-
+if __name__ == "__main__":
+    everything = do_everything_yolo()
     print(everything)
