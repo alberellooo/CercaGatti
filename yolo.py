@@ -36,4 +36,4 @@ if __name__ == "__main__":
 
     everything = sort_results(results)
 
-    print(list)
+    print(everything)
