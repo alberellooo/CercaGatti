@@ -29,23 +29,36 @@ def draw_lines(frame, width, height):
         cv2.line(frame, (width_second_line, height), (width_second_line, 0), (0, 0, 0), 5) # linea destra 
         return width_first_line, width_second_line
 
-def test(frame, width, height):
+def test_circle(frame, width, height, width_first_line, width_second_line):
     settings = {
-         "center": (int(width/2), int(height/2)),
-         "radius": 10,
-         "color": (0, 0, 0),
-         "thickness": -1 
-        }
+        "center": (int(width/2), int(height/2)),
+        "radius": 10,
+        "color": (0, 0, 0),
+        "thickness": -1 
+    }
     cv2.circle(frame, settings["center"], settings["radius"], settings["color"], settings["thickness"])
-    return settings
-
-def find_circle(circle, width_first_line, width_second_line):
-    if circle["center"][0] <= width_first_line:
+    if settings["center"][0] <= width_first_line:
         cv2.putText(frame, "LEFT", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
-    elif circle["center"][0] >= width_first_line and circle["center"][0] <= width_second_line:
+    elif settings["center"][0] >= width_first_line and settings["center"][0] <= width_second_line:
         cv2.putText(frame, "CENTER", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
     else:
         cv2.putText(frame, "RIGHT", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+
+def test_rectangle(frame, width_first_line, width_second_line):
+    settings = {
+        "point1": (100, 400),
+        "point2": (300, 300),
+        "color": (0, 0, 0),
+        "thickness": 2
+    }
+    cv2.rectangle(frame, settings["point1"], settings["point2"], settings["color"], settings["thickness"])
+    center = (int((settings["point1"][0] + settings["point2"][1]) / 2), int((settings["point1"][1] + settings["point2"][1]) / 2))
+    if center[0] < width_first_line:
+        cv2.putText(frame, "LEFT", (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+    elif center[0] > width_first_line and center[0] < width_second_line:
+        cv2.putText(frame, "CENTER", (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+    else:
+        cv2.putText(frame, "RIGHT", (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
 
 def quit(key_to_stop):
         key = cv2.waitKey(1) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
@@ -72,9 +85,9 @@ if __name__ == "__main__":
         
         width_first_line, width_second_line = draw_lines(frame, width, height)
 
-        circle = test(width, height)
+        test_circle(frame, width, height, width_first_line, width_second_line)
 
-        find_circle(circle, width_first_line, width_second_line)
+        test_rectangle(frame, width_first_line, width_second_line)
 
         cv2.imshow("output", frame)
 
