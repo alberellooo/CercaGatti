@@ -19,24 +19,15 @@ def read_frame(canale):
     return check, frame
 
 def dimension(frame):
-    height, width, channel = frame.shape # channel ritorna i canali BGR
-    return width, height, channel
+    height, width= frame.shape[:2] # il terzo è channel che ritorna i canali BGR ma a me non serve
+    return width, height
 
-def lines(frame):
+def draw_lines(frame, width, height):
         width_first_line = int(40/100*width)
         width_second_line = int(60/100*width) 
         cv2.line(frame, (width_first_line, width), (width_first_line, 0), (0, 0, 0), 5) # linea sinistra
         cv2.line(frame, (width_second_line, height), (width_second_line, 0), (0, 0, 0), 5) # linea destra 
         return width_first_line, width_second_line
-        
-
-def quit(key_to_stop):
-        key = cv2.waitKey(1) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
-
-        # il secondo comando dice di stoppare quando clicco la X della finestra
-        if key == ord(key_to_stop) or cv2.getWindowProperty("output", cv2.WND_PROP_VISIBLE) == 0: 
-            cv2.destroyAllWindows() # chiude tutte le finestre (per sicurezza)
-            return True
 
 def test(frame, width, height):
     settings = {
@@ -48,17 +39,22 @@ def test(frame, width, height):
     cv2.circle(frame, settings["center"], settings["radius"], settings["color"], settings["thickness"])
     return settings
 
-def find_circle(width_first_line, width_second_line):
-    circle_pos = test(frame, width, height)
-    if circle_pos["center"][0] <= width_first_line:
+def find_circle(circle, width_first_line, width_second_line):
+    if circle["center"][0] <= width_first_line:
         cv2.putText(frame, "LEFT", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
-    elif circle_pos["center"][0] >= width_first_line and circle_pos["center"][0] <= width_second_line:
+    elif circle["center"][0] >= width_first_line and circle["center"][0] <= width_second_line:
         cv2.putText(frame, "CENTER", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
     else:
         cv2.putText(frame, "RIGHT", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
 
-    
+def quit(key_to_stop):
+        key = cv2.waitKey(1) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
 
+        # il secondo comando dice di stoppare quando clicco la X della finestra
+        if key == ord(key_to_stop) or cv2.getWindowProperty("output", cv2.WND_PROP_VISIBLE) == 0: 
+            cv2.destroyAllWindows() # chiude tutte le finestre (per sicurezza)
+            return True
+    
 if __name__ == "__main__":
 
     key_to_stop = "q"
@@ -69,14 +65,16 @@ if __name__ == "__main__":
         check, frame = read_frame(canale)
 
         if check:
-            width, height, channel = dimension(frame)
+            width, height = dimension(frame)
             print("Frame catturato. Dimensioni:", str(width), "x", str(height))
         else:
             print("Frame perso")
         
-        width_first_line, width_second_line = lines(frame)
+        width_first_line, width_second_line = draw_lines(frame, width, height)
 
-        find_circle(width_first_line, width_second_line)
+        circle = test(width, height)
+
+        find_circle(circle, width_first_line, width_second_line)
 
         cv2.imshow("output", frame)
 
