@@ -10,8 +10,8 @@ Per esempio se l'oggetto si trova nella parte di sinistra, il robot girerà vers
 
 import cv2
 
-def initialize():
-    canale = cv2.VideoCapture(0)
+def initialize_camera():
+    canale = cv2.VideoCapture(1)
     return canale
 
 def read_frame(canale):
@@ -60,6 +60,9 @@ def test_rectangle(frame, width_first_line, width_second_line):
     else:
         cv2.putText(frame, "RIGHT", (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
 
+def output_camera(frame):
+    cv2.imshow("output", frame)
+    
 def quit(key_to_stop):
         key = cv2.waitKey(1) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
 
@@ -72,7 +75,7 @@ if __name__ == "__main__":
 
     key_to_stop = "q"
     
-    canale = initialize()
+    canale = initialize_camera()
     
     while True:
         check, frame = read_frame(canale)
@@ -85,11 +88,13 @@ if __name__ == "__main__":
         
         width_first_line, width_second_line = draw_lines(frame, width, height)
 
+        # prova per controllare un cerchio
         test_circle(frame, width, height, width_first_line, width_second_line)
 
+        # prova per controllare un rettangolo
         test_rectangle(frame, width_first_line, width_second_line)
 
-        cv2.imshow("output", frame)
+        output_camera(frame)
 
         if quit(key_to_stop):
              break
