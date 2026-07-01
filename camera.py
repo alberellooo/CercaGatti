@@ -11,7 +11,7 @@ Per esempio se l'oggetto si trova nella parte di sinistra, il robot girerà vers
 import cv2
 
 def initialize_camera():
-    canale = cv2.VideoCapture(1)
+    canale = cv2.VideoCapture(0)
     return canale
 
 def read_frame(canale):
