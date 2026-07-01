@@ -5,6 +5,7 @@ Usufruisco di cv2 per disegnare i rettangoli che delimitano gli oggetti.
 
 import cv2, yolo
 
-def draw_rectangle(frame):
+def draw_rectangles(frame):
     everything = yolo.sort_results()
-    
+    for obj in everything:
+        

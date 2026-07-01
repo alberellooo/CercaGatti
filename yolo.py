@@ -24,7 +24,11 @@ def sort_results(results):
         pos = box.xyxy[0].tolist()
         name_ogg = model.names[int(box.cls[0])]
         conf = float(box.conf[0])
-        everything.append([pos, name_ogg, conf])
+        everything.append({
+            "box": pos,
+            "name": name_ogg,
+            "conf": conf
+            })
     return everything
 
 if __name__ == "__main__":
