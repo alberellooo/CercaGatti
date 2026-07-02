@@ -4,6 +4,8 @@
 [![OpenCV](https://img.shields.io/badge/OpenCV-4.x-green)](https://opencv.org/)
 [![Ultralytics](https://img.shields.io/badge/YOLO-v8-red)](https://github.com/ultralytics/ultralytics)
 
+## **ENG version is inside the repo**
+
 **CercaGatti** è un progetto software per un robot autonomo in grado di individuare un gatto tramite una telecamera, riconoscerlo utilizzando YOLO e decidere in quale direzione muoversi per inseguirlo.
 
 > ⚠️ **Stato attuale:** Il progetto è nelle prime fasi di sviluppo. Il robot fisico non è ancora stato costruito; il software viene testato esclusivamente tramite webcam.
