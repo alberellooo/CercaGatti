@@ -16,11 +16,13 @@ def draw_rectangles_names(frame, everything):
 
 if __name__ == "__main__":
     while True:
-        everything, frame = yolo.do_everything_yolo()
-        
-        frame = draw_rectangles_names(frame, everything)
-
-        camera.output_camera(frame)
+        canale = camera.initialize_camera()
+        check, frame = camera.read_frame(canale)
+        model = yolo.initialize_YOLO()
+        results = yolo.get_results(model, frame)
+        everything = yolo.sort_results(model, results)
+        new_frame = draw_rectangles_names(frame, everything)
+        camera.output_camera(new_frame)
 
         if camera.quit(key_to_stop="q"):
             break

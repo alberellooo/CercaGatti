@@ -19,7 +19,7 @@ def read_frame(canale):
     return check, frame
 
 def dimension(frame):
-    height, width= frame.shape[:2] # il terzo è channel che ritorna i canali BGR ma a me non serve
+    height, width = frame.shape[:2] # il terzo è channel che ritorna i canali BGR ma a me non serve
     return width, height
 
 def draw_lines(frame, width, height):
@@ -27,8 +27,19 @@ def draw_lines(frame, width, height):
         width_second_line = int(60/100*width) 
         cv2.line(frame, (width_first_line, width), (width_first_line, 0), (0, 0, 0), 5) # linea sinistra
         cv2.line(frame, (width_second_line, height), (width_second_line, 0), (0, 0, 0), 5) # linea destra 
-        return width_first_line, width_second_line
+        return frame, width_first_line, width_second_line
 
+def output_camera(frame):
+    cv2.imshow("output", frame)
+
+def quit(key_to_stop):
+        key = cv2.waitKey(1) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
+        # il secondo comando dice di stoppare quando clicco la X della finestra
+        if key == ord(key_to_stop) or cv2.getWindowProperty("output", cv2.WND_PROP_VISIBLE) == 0: 
+            cv2.destroyAllWindows() # chiude tutte le finestre (per sicurezza)
+            return True
+
+# |---------------------------------- ||| TEST ||| ----------------------------------|
 def test_circle(frame, width, height, width_first_line, width_second_line):
     settings = {
         "center": (int(width/2), int(height/2)),
@@ -43,6 +54,7 @@ def test_circle(frame, width, height, width_first_line, width_second_line):
         cv2.putText(frame, "CENTER", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
     else:
         cv2.putText(frame, "RIGHT", (0, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+    return frame
 
 def test_rectangle(frame, width_first_line, width_second_line):
     settings = {
@@ -59,18 +71,9 @@ def test_rectangle(frame, width_first_line, width_second_line):
         cv2.putText(frame, "CENTER", (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
     else:
         cv2.putText(frame, "RIGHT", (0, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+    return frame
+# |---------------------------------- ||| FINE TEST ||| ----------------------------------|
 
-def output_camera(frame):
-    cv2.imshow("output", frame)
-    
-def quit(key_to_stop):
-        key = cv2.waitKey(1) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
-
-        # il secondo comando dice di stoppare quando clicco la X della finestra
-        if key == ord(key_to_stop) or cv2.getWindowProperty("output", cv2.WND_PROP_VISIBLE) == 0: 
-            cv2.destroyAllWindows() # chiude tutte le finestre (per sicurezza)
-            return True
-    
 if __name__ == "__main__":
 
     key_to_stop = "q"

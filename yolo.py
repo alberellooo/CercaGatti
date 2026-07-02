@@ -9,11 +9,6 @@ def initialize_YOLO():
     model = YOLO("yolov8n.pt")
     return model
 
-def get_frame():
-    canale = camera.initialize_camera()
-    check, frame = camera.read_frame(canale)
-    return frame
-
 def get_results(model, frame):
     results = model(frame)
     return results
@@ -31,13 +26,13 @@ def sort_results(model, results):
             })
     return everything
 
-def do_everything_yolo():
+if __name__ == "__main__":
+
+    # stampa tutto quello che vede (come test)
+    canale = camera.initialize_camera()
+    check, frame = camera.read_frame(canale)
     model = initialize_YOLO()
-    frame = get_frame()
     results = get_results(model, frame)
     everything = sort_results(model, results)
-    return everything, frame
 
-if __name__ == "__main__":
-    everything, frame = do_everything_yolo()
     print(everything)
