@@ -10,8 +10,9 @@ def draw_rectangles_names(frame, everything):
         x1, y1, x2, y2 = map(int, el["box"])
         name_obj = el["name"]
         conf = el["conf"]
-        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 2)
-        cv2.putText(frame, name_obj, (x1, y1-10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
+        if conf > 0.2:
+            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 2)
+            cv2.putText(frame, name_obj, (x1, y1+20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 3)
     return frame
 
 if __name__ == "__main__":
