@@ -30,10 +30,11 @@ def draw_lines(frame, width, height):
         return frame, width_first_line, width_second_line
 
 def output_camera(frame):
+    cv2.namedWindow("output", cv2.WINDOW_NORMAL)
     cv2.imshow("output", frame)
 
 def quit(key_to_stop):
-        key = cv2.waitKey(1) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
+        key = cv2.waitKey(30) # ritorna un codice ASCII se premo qualcosa, altrimenti -1
         # il secondo comando dice di stoppare quando clicco la X della finestra
         if key == ord(key_to_stop) or cv2.getWindowProperty("output", cv2.WND_PROP_VISIBLE) == 0: 
             cv2.destroyAllWindows() # chiude tutte le finestre (per sicurezza)
@@ -89,7 +90,7 @@ if __name__ == "__main__":
         else:
             print("Frame perso")
         
-        width_first_line, width_second_line = draw_lines(frame, width, height)
+        frame, width_first_line, width_second_line = draw_lines(frame, width, height)
 
         # prova per controllare un cerchio
         test_circle(frame, width, height, width_first_line, width_second_line)
