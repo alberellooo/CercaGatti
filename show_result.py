@@ -11,7 +11,7 @@ def draw_rectangles_and_names(frame, everything):
         x1, y1, x2, y2 = map(int, el["box"])
         name_obj = el["name"]
         conf = el["conf"]
-        if conf > 0.3:
+        if conf > 0.3 or name_obj == "cat":
             testo = name_obj + " " + str(int(conf*100)) + "%"
             cv2.rectangle(frame, (x1, y1), (x2, y2), COLORS[name_obj], 2)
             (text_w, text_h), baseline = cv2.getTextSize(testo, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 3)

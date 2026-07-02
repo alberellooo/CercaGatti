@@ -1,3 +1,7 @@
+"""
+Questo codice contiene le configurazioni di colore per ogni oggetto di YOLO
+"""
+
 COLORS = {
     "person": (255, 0, 0),
     "bicycle": (0, 255, 0),
