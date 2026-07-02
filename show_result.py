@@ -15,10 +15,10 @@ def draw_rectangles_names(frame, everything):
     return frame
 
 if __name__ == "__main__":
+    canale = camera.initialize_camera()
+    model = yolo.initialize_YOLO()
     while True:
-        canale = camera.initialize_camera()
         check, frame = camera.read_frame(canale)
-        model = yolo.initialize_YOLO()
         results = yolo.get_results(model, frame)
         everything = yolo.sort_results(model, results)
         new_frame = draw_rectangles_names(frame, everything)
