@@ -14,7 +14,7 @@
 
 ## 📋 Funzionalità
 
-### ✅ Implementate
+###  Implementate
 
 - **Acquisizione video** — Cattura di frame dalla webcam tramite OpenCV.
 - **Configurazione della videocamera** — Impostazione di risoluzione e FPS.
@@ -25,7 +25,7 @@
 - **Disegno dei bounding box** — Visualizzazione dei rettangoli e dei nomi delle classi direttamente sul frame.
 - **Divisione dell'immagine in aree** — Linee di demarcazione al 40% e 60% della larghezza per suddividere il frame in sinistra, centro e destra (funzioni di test per cerchio e rettangolo).
 
-### 🗺️ Roadmap (Pianificate)
+### Roadmap (Pianificate)
 
 - [ ] Filtraggio delle detection per rilevare esclusivamente gatti.
 - [ ] Calcolo del centro del gatto rilevato.
@@ -38,7 +38,7 @@
 
 ---
 
-## 🛠️ Tecnologie
+## Tecnologie
 
 | Tecnologia | Utilizzo |
 | --- | --- |
@@ -51,7 +51,7 @@
 
 ---
 
-## 📦 Installazione
+## Installazione
 
 1. **Clona il repository**
 
@@ -95,7 +95,7 @@
 
 ---
 
-## 📁 Struttura del progetto
+## Struttura del progetto
 
 ```text
 CercaGatti/
@@ -124,7 +124,7 @@ CercaGatti/
 
 ---
 
-## 🚦 Stato del progetto
+## Stato del progetto
 
 Il progetto è in fase **alpha/sviluppo iniziale**. Al momento il software è in grado di:
 
@@ -137,12 +137,10 @@ Il passo successivo è filtrare le detection per riconoscere esclusivamente gatt
 
 ---
 
-## 🤝 Contributi
+## Contributi
 
 Questo è un progetto personale in fase di apprendimento e sviluppo. Suggerimenti, idee e feedback sono benvenuti!
 
 ---
 
-## 📄 Licenza
-
-Distribuito sotto licenza MIT. Vedi il file `LICENSE` per maggiori informazioni.
+Made by Alberello
