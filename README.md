@@ -12,9 +12,9 @@
 
 ---
 
-## 📋 Funzionalità
+## Funzionalità
 
-###  Implementate
+### Implementate
 
 - **Acquisizione video** — Cattura di frame dalla webcam tramite OpenCV.
 - **Configurazione della videocamera** — Impostazione di risoluzione e FPS.
@@ -22,21 +22,10 @@
 - **Chiusura controllata** — Uscita dall'applicazione premendo il tasto `q` o cliccando la X della finestra.
 - **Riconoscimento oggetti con YOLO** — Rilevamento di oggetti nei frame utilizzando YOLOv8.
 - **Estrazione dei risultati** — Parsing delle detection YOLO in una struttura dati Python (lista di dizionari con bounding box, nome della classe e confidence).
-- **Disegno dei bounding box** — Visualizzazione dei rettangoli e dei nomi delle classi direttamente sul frame.
-- **Divisione dell'immagine in aree** — Linee di demarcazione al 40% e 60% della larghezza per suddividere il frame in sinistra, centro e destra (funzioni di test per cerchio e rettangolo).
-
-### Roadmap (Pianificate)
-
-- [ ] Filtraggio delle detection per rilevare esclusivamente gatti.
-- [ ] Calcolo del centro del gatto rilevato.
-- [ ] Decisione della direzione del robot in base all'area di appartenenza del gatto.
-- [ ] Controllo dei motori per l'inseguimento.
-- [ ] Tracking del gatto tra frame consecutivi.
-- [ ] Gestione della perdita del bersaglio.
-- [ ] Ottimizzazione delle prestazioni (FPS, riduzione latenza).
-- [ ] Integrazione con l'hardware del robot.
-
----
+- **Disegno dei bounding box** — Visualizzazione dei rettangoli e dei nomi delle classi direttamente sul frame, con sfondo colorato per il testo.
+- **Divisione dell'immagine in aree** — Linee di demarcazione al 40% e 60% della larghezza per suddividere il frame in sinistra, centro e destra.
+- **Decisione della direzione** — Calcolo della posizione del gatto nelle tre aree e scelta della direzione (sinistra, avanti, destra).
+- **Modulo principale** — `main.py` coordina tutti i moduli per l'esecuzione completa del programma.
 
 ## Tecnologie
 
@@ -88,7 +77,7 @@
 5. **Avvia il progetto**
 
    ```bash
-   python show_result.py
+   python main.py
    ```
 
    *(Premi `q` per uscire dalla finestra video)*
@@ -99,16 +88,31 @@
 
 ```text
 CercaGatti/
+|
 ├── camera.py          # Gestione della telecamera: inizializzazione,
 │                      # lettura frame, disegno linee, output video e chiusura
+|
 ├── yolo.py            # Inizializzazione del modello YOLO, rilevamento
 │                      # oggetti e parsing dei risultati
+|
 ├── show_result.py     # Visualizzazione dei risultati: disegno dei bounding
 │                      # box e dei nomi delle classi sul frame
+|
+├── direction.py       # Logica decisionale: determina la direzione del robot
+│                      # in base alla posizione del gatto (sinistra/centro/destra)
+|
+├── colors.py          # Mappa dei colori per ogni classe YOLO
+|
 ├── config.py          # Configurazione del progetto (in fase di sviluppo)
-├── main.py            # Entry point principale (in fase di sviluppo)
+|
+├── main.py            # Entry point principale che coordina tutti i moduli
+|
 ├── requirements.txt   # Dipendenze del progetto
+|
 ├── README.md          # Documentazione
+|
+├── README_EN.md          # Documentazione in inglese
+|
 └── .gitignore         # File ignorati da Git
 ```
 
@@ -118,9 +122,11 @@ CercaGatti/
 
 - **`yolo.py`** — Carica il modello YOLOv8 pre-addestrato, esegue il rilevamento degli oggetti su un frame e restituisce i risultati in una struttura dati ordinata (lista di oggetti con posizione, nome e confidenza).
 
-- **`show_result.py`** — Prende i risultati di YOLO e li visualizza graficamente sul frame disegnando rettangoli attorno agli oggetti rilevati e scrivendo il nome della classe.
+- **`show_result.py`** — Prende i risultati di YOLO e li visualizza graficamente sul frame disegnando rettangoli attorno agli oggetti rilevati e scrivendo il nome della classe con sfondo colorato.
 
-- **`main.py`** — Destinato a diventare il punto di ingresso principale che coordinerà tutti i moduli (attualmente in fase di sviluppo).
+- **`direction.py`** — Analizza la posizione del gatto nel frame e decide la direzione del movimento: sinistra (-1), avanti (0), destra (1).
+
+- **`main.py`** — Entry point principale che coordina tutti i moduli per l'esecuzione completa del programma.
 
 ---
 
@@ -130,12 +136,9 @@ Il progetto è in fase **alpha/sviluppo iniziale**. Al momento il software è in
 
 - Acquisire video in tempo reale dalla webcam.
 - Rilevare oggetti generici con YOLOv8.
-- Mostrare i risultati graficamente.
-- Suddividere l'immagine in aree per future decisioni direzionali.
-
-Il passo successivo è filtrare le detection per riconoscere esclusivamente gatti e iniziare a implementare la logica decisionale per il movimento del robot.
-
----
+- Mostrare i risultati graficamente con bounding box e nomi colorati.
+- Suddividere l'immagine in aree (sinistra, centro, destra).
+- Rilevare la presenza di un gatto e determinare la direzione in cui si trova.
 
 ## Contributi
 

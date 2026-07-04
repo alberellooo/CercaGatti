@@ -10,9 +10,9 @@
 
 ---
 
-## 📋 Features
+## Features
 
-### ✅ Implemented
+### Implemented
 
 - **Video capture** — Frame acquisition from the webcam via OpenCV.
 - **Camera configuration** — Resolution and FPS settings.
@@ -20,23 +20,12 @@
 - **Graceful shutdown** — Exit the application by pressing `q` or clicking the window's close button.
 - **Object detection with YOLO** — Real-time object detection in frames using YOLOv8.
 - **Result parsing** — Extraction of YOLO detections into a Python data structure (list of dictionaries with bounding boxes, class name, and confidence score).
-- **Bounding box drawing** — Visualization of rectangles and class names directly on the frame.
-- **Image area division** — Demarcation lines at 40% and 60% of the width to split the frame into left, center, and right areas (test functions for circle and rectangle).
+- **Bounding box drawing** — Visualization of rectangles and class names directly on the frame, with colored background for the text.
+- **Image area division** — Demarcation lines at 40% and 60% of the width to split the frame into left, center, and right areas.
+- **Direction decision** — Calculation of the cat's position in the three areas and choice of direction (left, forward, right).
+- **Main module** — `main.py` coordinates all modules for the complete program execution.
 
-### 🗺️ Roadmap (Planned)
-
-- [ ] Filter detections to exclusively identify cats.
-- [ ] Calculate the center of the detected cat.
-- [ ] Decide robot direction based on which area the cat belongs to.
-- [ ] Motor control for chasing.
-- [ ] Cat tracking across consecutive frames.
-- [ ] Target loss handling.
-- [ ] Performance optimization (FPS, latency reduction).
-- [ ] Integration with robot hardware.
-
----
-
-## 🛠️ Technologies
+## Technologies
 
 | Technology | Usage |
 | --- | --- |
@@ -49,7 +38,7 @@
 
 ---
 
-## 📦 Installation
+## Installation
 
 1. **Clone the repository**
 
@@ -86,28 +75,42 @@
 5. **Run the project**
 
    ```bash
-   python show_result.py
+   python main.py
    ```
 
    *(Press `q` to exit the video window)*
 
 ---
 
-## 📁 Project structure
+## Project structure
 
 ```text
 CercaGatti/
+|
 ├── camera.py          # Camera management: initialization,
 │                      # frame reading, line drawing, video output and shutdown
+|
 ├── yolo.py            # YOLO model initialization, object
 │                      # detection and result parsing
+|
 ├── show_result.py     # Result visualization: bounding box
 │                      # and class name drawing on the frame
+|
+├── direction.py       # Decision logic: determines the robot's direction
+│                      # based on the cat's position (left/center/right)
+|
+├── colors.py          # Color map for each YOLO class
+|
 ├── config.py          # Project configuration (in development)
-├── main.py            # Main entry point (in development)
+|
+├── main.py            # Main entry point coordinating all modules
+|
 ├── requirements.txt   # Project dependencies
+|
 ├── README.md          # Documentation (Italian)
+|
 ├── README_EN.md       # Documentation (English)
+|
 └── .gitignore         # Git ignored files
 ```
 
@@ -117,31 +120,28 @@ CercaGatti/
 
 - **`yolo.py`** — Loads the pre-trained YOLOv8 model, performs object detection on a frame, and returns the results in an organized data structure (a list of objects with position, name, and confidence).
 
-- **`show_result.py`** — Takes YOLO results and displays them graphically on the frame by drawing rectangles around detected objects and writing the class name.
+- **`show_result.py`** — Takes YOLO results and displays them graphically on the frame by drawing rectangles around detected objects and writing the class name with a colored background.
 
-- **`main.py`** — Intended to become the main entry point coordinating all modules (currently under development).
+- **`direction.py`** — Analyzes the cat's position in the frame and decides the movement direction: left (-1), forward (0), right (1).
+
+- **`main.py`** — Main entry point that coordinates all modules for the complete program execution.
 
 ---
 
-## 🚦 Project status
+## Project status
 
 The project is in **alpha / early development** stage. Currently the software can:
 
 - Capture real-time video from the webcam.
 - Detect generic objects using YOLOv8.
-- Display results graphically.
-- Divide the image into areas for future directional decisions.
+- Display results graphically with bounding boxes and colored names.
+- Divide the image into areas (left, center, right).
+- Detect the presence of a cat and determine its direction.
 
-The next step is to filter detections to recognize only cats and begin implementing the decision-making logic for robot movement.
-
----
-
-## 🤝 Contributing
+## Contributing
 
 This is a personal learning and development project. Suggestions, ideas, and feedback are welcome!
 
 ---
 
-## 📄 License
-
-Distributed under the MIT License. See the `LICENSE` file for more information.
+Made by Alberello
