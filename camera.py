@@ -4,6 +4,7 @@ Il risultato finale sarà che ogni frame è diviso in 3 parti.
 I segmenti sono grandi (rispetto alla larghezza):
 - ai lati 40%
 - al centro 20%
+
 Lo scopo è di dire il robot di girare in base a dove si trova l'oggetto.
 Per esempio se l'oggetto si trova nella parte di sinistra, il robot girerà verso sinistra.
 """
@@ -22,11 +23,12 @@ def dimension(frame):
     height, width = frame.shape[:2] # il terzo è channel che ritorna i canali BGR ma a me non serve
     return width, height
 
-def draw_lines(frame, width, height):
+def draw_lines(frame, width, height, draw): # ho aggiunto draw come variabile perché quando uso la funzione su direction.py non voglio che disegni le linee sul frame
         width_first_line = int(40/100*width)
-        width_second_line = int(60/100*width) 
-        cv2.line(frame, (width_first_line, width), (width_first_line, 0), (0, 0, 0), 5) # linea sinistra
-        cv2.line(frame, (width_second_line, height), (width_second_line, 0), (0, 0, 0), 5) # linea destra 
+        width_second_line = int(60/100*width)
+        if draw:
+            cv2.line(frame, (width_first_line, width), (width_first_line, 0), (0, 0, 0), 5) # linea sinistra
+            cv2.line(frame, (width_second_line, height), (width_second_line, 0), (0, 0, 0), 5) # linea destra 
         return frame, width_first_line, width_second_line
 
 def output_camera(frame):
@@ -90,7 +92,7 @@ if __name__ == "__main__":
         else:
             print("Frame perso")
         
-        frame, width_first_line, width_second_line = draw_lines(frame, width, height)
+        frame, width_first_line, width_second_line = draw_lines(frame, width, height, draw=True)
 
         # prova per controllare un cerchio
         test_circle(frame, width, height, width_first_line, width_second_line)
